@@ -684,6 +684,7 @@ class SequenceTagger(flair.nn.Model):
             for index, length in enumerate(lengths):
                 feature[index, length:] = 0
             softmax_batch = F.softmax(feature, dim=2).cpu()
+            softmax_batch[:, :, 1] -= 0.9
             scores_batch, prediction_batch = torch.max(softmax_batch, dim=2)
             feature = zip(softmax_batch, scores_batch, prediction_batch)
 
